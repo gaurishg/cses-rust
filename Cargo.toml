@@ -1,0 +1,7 @@
+[workspace]
+
+members = [
+	"introductory_problems"
+]
+
+resolver = "1"
