@@ -1,4 +1,5 @@
 mod p01_weird_algorithm;
+mod p02_missing_number;
 
 pub fn add(left: usize, right: usize) -> usize {
     left + right
