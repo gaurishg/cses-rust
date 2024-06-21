@@ -1,6 +1,7 @@
 mod p01_weird_algorithm;
 mod p02_missing_number;
 mod p03_repetitions;
+mod p04_increasing_array;
 
 pub fn add(left: usize, right: usize) -> usize {
     left + right
