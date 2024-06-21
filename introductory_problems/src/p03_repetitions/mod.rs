@@ -1,4 +1,4 @@
-fn f(seq: &str) -> i32 {
+pub fn f(seq: &str) -> i32 {
     let mut maxv = 1;
     let mut current_count = 0;
     let mut prev_char = '\0';
@@ -14,7 +14,7 @@ fn f(seq: &str) -> i32 {
     maxv
 }
 
-fn main() {
+pub fn main() {
     let mut input = String::new();
     let _ = std::io::stdin().read_line(&mut input);
     println!("{}", f(&input));

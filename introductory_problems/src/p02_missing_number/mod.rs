@@ -1,8 +1,8 @@
-fn f(n: i32, numbers: Vec<i32>) -> i32 {
+pub fn f(n: i32, numbers: Vec<i32>) -> i32 {
     std::iter::zip(numbers, 1..n).fold(0, |acc, (x, y)| acc ^ x ^ y) ^ n
 }
 
-fn main() {
+pub fn main() {
     let mut buffer = String::new();
     let _ = std::io::stdin().read_line(&mut buffer);
     let n = buffer.trim().parse().unwrap();

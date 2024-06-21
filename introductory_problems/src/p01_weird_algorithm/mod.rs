@@ -1,4 +1,4 @@
-fn f(mut n: i64) -> Vec<i64> {
+pub fn f(mut n: i64) -> Vec<i64> {
     let mut ret = Vec::new();
     loop {
         ret.push(n);
@@ -14,7 +14,7 @@ fn f(mut n: i64) -> Vec<i64> {
     ret
 }
 
-fn main() {
+pub fn main() {
     let mut buffer = String::new();
     let _ = std::io::stdin().read_line(&mut buffer);
     let n = buffer.trim().parse().unwrap();
