@@ -1,4 +1,4 @@
-pub fn f(nums: Vec<i64>) -> i64 {
+fn f(nums: Vec<i64>) -> i64 {
     let mut sum = 0;
     let mut maxv = *nums.first().unwrap();
     for x in nums {

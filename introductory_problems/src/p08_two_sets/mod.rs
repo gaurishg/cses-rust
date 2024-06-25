@@ -1,6 +1,6 @@
 use std::io::Read;
 
-pub fn f(n: u64) -> Option<(Vec<u64>, Vec<u64>)> {
+fn f(n: u64) -> Option<(Vec<u64>, Vec<u64>)> {
     let sum = (n * (n + 1)) / 2;
     if sum % 2 == 0 {
         let mut remaining = sum / 2;

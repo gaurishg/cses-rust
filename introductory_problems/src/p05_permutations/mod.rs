@@ -1,4 +1,4 @@
-pub fn f(n: u32) -> Result<Vec<u32>, &'static str> {
+fn f(n: u32) -> Result<Vec<u32>, &'static str> {
     match n {
         0 => Err("NO SOLUTION"),
         1 => Ok(vec![1]),

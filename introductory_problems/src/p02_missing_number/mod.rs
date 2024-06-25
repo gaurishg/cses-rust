@@ -1,4 +1,4 @@
-pub fn f(n: i32, numbers: Vec<i32>) -> i32 {
+fn f(n: i32, numbers: Vec<i32>) -> i32 {
     std::iter::zip(numbers, 1..n).fold(0, |acc, (x, y)| acc ^ x ^ y) ^ n
 }
 

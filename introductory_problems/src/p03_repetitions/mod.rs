@@ -1,4 +1,4 @@
-pub fn f(seq: &str) -> i32 {
+fn f(seq: &str) -> i32 {
     let mut maxv = 1;
     let mut current_count = 0;
     let mut prev_char = '\0';

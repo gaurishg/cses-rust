@@ -1,4 +1,4 @@
-pub fn f(mut n: i64) -> Vec<i64> {
+fn f(mut n: i64) -> Vec<i64> {
     let mut ret = Vec::new();
     loop {
         ret.push(n);
