@@ -3,6 +3,7 @@ pub mod p02_missing_number;
 pub mod p03_repetitions;
 pub mod p04_increasing_array;
 pub mod p05_permutations;
+pub mod p08_two_sets;
 
 pub fn add(left: usize, right: usize) -> usize {
     left + right
