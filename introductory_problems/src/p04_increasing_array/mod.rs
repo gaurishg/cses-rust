@@ -1,4 +1,4 @@
-pub fn f(nums: Vec<i32>) -> i32 {
+pub fn f(nums: Vec<i64>) -> i64 {
     let mut sum = 0;
     let mut maxv = *nums.first().unwrap();
     for x in nums {
@@ -47,7 +47,7 @@ mod test {
                 .split_ascii_whitespace()
                 .map(|x| x.parse().unwrap())
                 .collect();
-            let correct_answer: i32 = lines.next().unwrap().unwrap().parse().unwrap();
+            let correct_answer: i64 = lines.next().unwrap().unwrap().parse().unwrap();
             let my_answer = f(nums);
             assert_eq!(correct_answer, my_answer);
         }
