@@ -4,6 +4,7 @@ pub mod p03_repetitions;
 pub mod p04_increasing_array;
 pub mod p05_permutations;
 pub mod p08_two_sets;
+pub mod p09_bit_strings;
 
 pub fn add(left: usize, right: usize) -> usize {
     left + right
