@@ -7,6 +7,7 @@ pub mod p08_two_sets;
 pub mod p09_bit_strings;
 pub mod p10_trailing_zeros;
 pub mod p11_coin_piles;
+pub mod p12_palindrome_reorder;
 
 pub fn add(left: usize, right: usize) -> usize {
     left + right
