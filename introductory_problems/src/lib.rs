@@ -9,6 +9,7 @@ pub mod p10_trailing_zeros;
 pub mod p11_coin_piles;
 pub mod p12_palindrome_reorder;
 pub mod p13_gray_code;
+pub mod p14_tower_of_hanoi;
 
 pub fn add(left: usize, right: usize) -> usize {
     left + right
