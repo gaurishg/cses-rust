@@ -11,6 +11,7 @@ pub mod p12_palindrome_reorder;
 pub mod p13_gray_code;
 pub mod p14_tower_of_hanoi;
 pub mod p15_creating_strings;
+pub mod p16_apple_divisions;
 
 pub fn add(left: usize, right: usize) -> usize {
     left + right
