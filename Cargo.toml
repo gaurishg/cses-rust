@@ -1,7 +1,7 @@
 [workspace]
 
 members = [
-	"introductory_problems"
+	"01_introductory_problems"
 ]
 
 resolver = "1"
