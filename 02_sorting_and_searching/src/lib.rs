@@ -7,3 +7,4 @@ pub mod p06_movie_festival;
 pub mod p11_collecting_numbers;
 pub mod p14_towers;
 pub mod p15_traffic_lights;
+pub mod p16_josephus_problem_i;
