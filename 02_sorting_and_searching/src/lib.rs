@@ -8,3 +8,4 @@ pub mod p11_collecting_numbers;
 pub mod p14_towers;
 pub mod p15_traffic_lights;
 pub mod p16_josephus_problem_i;
+pub mod p17_josephus_problem_ii;
