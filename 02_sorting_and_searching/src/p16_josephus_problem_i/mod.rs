@@ -4,7 +4,7 @@ fn f(n: i32) -> Vec<i32> {
     for x in 1..=n {
         v.push(x);
     }
-    
+
     let mut start_from_start = false;
     while v.len() > 0 {
         if start_from_start {
@@ -25,7 +25,7 @@ fn f(n: i32) -> Vec<i32> {
             v = v.into_iter().step_by(2).collect();
         }
     }
-    
+
     result
 }
 
@@ -38,7 +38,6 @@ pub fn main() {
         print!("{x} ");
     }
 }
-
 
 #[cfg(test)]
 mod test {

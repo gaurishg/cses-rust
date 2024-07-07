@@ -33,7 +33,7 @@ impl SqrtVec {
             data,
         }
     }
-    
+
     pub fn pop(&mut self) -> i32 {
         if self.n == 1 {
             self.n -= 1;
@@ -42,7 +42,7 @@ impl SqrtVec {
         self.skip();
         self.remove()
     }
-    
+
     pub fn pop_all(mut self) -> Vec<i32> {
         let mut v = vec![];
         while self.n > 0 {
@@ -65,14 +65,13 @@ impl SqrtVec {
             }
         }
     }
-    
+
     fn remove(&mut self) -> i32 {
         let result = self.data[self.r].remove(self.c);
         self.n -= 1;
         self.move_to_valid_position();
         result
     }
-    
 
     fn move_to_valid_position(&mut self) {
         while self.c >= self.data[self.r].len() {
@@ -88,11 +87,10 @@ impl SqrtVec {
     }
 }
 
-
 pub fn main() {
     let mut buffer = String::new();
     let _ = std::io::stdin().read_line(&mut buffer);
-    let mut reader = buffer.split_whitespace().map(|s|s.parse().unwrap());
+    let mut reader = buffer.split_whitespace().map(|s| s.parse().unwrap());
     let n = reader.next().unwrap();
     let k = reader.next().unwrap();
 
@@ -105,7 +103,7 @@ pub fn main() {
 #[cfg(test)]
 mod test {
     use super::SqrtVec;
-    
+
     #[test]
     fn test_1() {
         assert_eq!(vec![3, 6, 2, 7, 5, 1, 4], SqrtVec::new(7, 2).pop_all());
