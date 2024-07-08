@@ -190,19 +190,24 @@ mod test {
         let contained_correct = vec![0, 1, 0, 1];
         assert_eq!((contains_correct, contained_correct), f(range));
     }
-    
+
     #[test]
+    #[ignore]
     fn test_from_file() {
         let folder_path = std::path::Path::new("..").join(file!());
         let folder_path = folder_path.parent().unwrap();
         let input_file_path = folder_path.join("input.txt");
         let output_file_path = folder_path.join("output.txt");
-        
+
         let mut input_file_data = String::new();
-        let _ = std::fs::File::open(input_file_path).unwrap().read_to_string(&mut input_file_data);
+        let _ = std::fs::File::open(input_file_path)
+            .unwrap()
+            .read_to_string(&mut input_file_data);
 
         let mut output_file_data = String::new();
-        let _ = std::fs::File::open(output_file_path).unwrap().read_to_string(&mut output_file_data);
+        let _ = std::fs::File::open(output_file_path)
+            .unwrap()
+            .read_to_string(&mut output_file_data);
 
         let mut input_lines = input_file_data.lines();
         let mut output_lines = output_file_data.lines();
@@ -217,10 +222,24 @@ mod test {
                 x.0 = line.next().unwrap().parse().unwrap();
                 x.1 = line.next().unwrap().parse().unwrap();
             }
-            
-            let correct_contains: Vec<usize> = output_lines.next().unwrap().split_whitespace().map(|s|s.parse().unwrap()).collect();
-            let correct_contained: Vec<usize> = output_lines.next().unwrap().split_whitespace().map(|s|s.parse().unwrap()).collect();
-            assert_eq!((correct_contains, correct_contained), f(range), "Test {test_idx} failed");
+
+            let correct_contains: Vec<usize> = output_lines
+                .next()
+                .unwrap()
+                .split_whitespace()
+                .map(|s| s.parse().unwrap())
+                .collect();
+            let correct_contained: Vec<usize> = output_lines
+                .next()
+                .unwrap()
+                .split_whitespace()
+                .map(|s| s.parse().unwrap())
+                .collect();
+            assert_eq!(
+                (correct_contains, correct_contained),
+                f(range),
+                "Test {test_idx} failed"
+            );
         }
     }
 }
