@@ -12,3 +12,4 @@ pub mod p17_josephus_problem_ii;
 pub mod p18_nested_ranges_check;
 pub mod p19_nested_ranges_count;
 pub mod p20_room_allocation;
+pub mod p21_factory_machines;
