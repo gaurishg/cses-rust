@@ -15,3 +15,4 @@ pub mod p20_room_allocation;
 pub mod p21_factory_machines;
 pub mod p22_tasks_and_deadlines;
 pub mod p23_reading_books;
+pub mod p24_sum_of_three_values;
