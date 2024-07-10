@@ -7,10 +7,10 @@ fn f(target_sum: i64, v: Vec<i64>) -> i64 {
 
     for x in v {
         s += x;
-        *m.entry(s).or_default() += 1;
         if let Some(cnt) = m.get(&(s - target_sum)) {
-            counts += cnt - (target_sum == 0) as i64;
+            counts += cnt;
         }
+        *m.entry(s).or_default() += 1;
     }
 
     counts
