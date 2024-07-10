@@ -12,18 +12,17 @@ fn f(target_sum: i64, v: Vec<i64>) -> (usize, usize, usize, usize) {
             .enumerate()
             .skip(idx + 1)
         {
-            for (idz, &(z, iz)) in v
-                .iter()
-                .take_while(|&(z, _)| x + y + z <= target_sum)
-                .enumerate()
-                .skip(idy + 1)
-            {
-                if let Ok(idw) = v[idz + 1..]
-                    .binary_search_by_key(&(target_sum - x - y - z), |(value, _)| *value)
-                {
-                    let mut v = vec![ix + 1, iy + 1, iz + 1, v[idw + idz + 1].1 + 1];
+            let mut idz = idy + 1;
+            let mut idw = v.len() - 1;
+            while idz < idw {
+                if v[idz].0 + v[idw].0 + x + y == target_sum {
+                    let mut v = vec![ix + 1, iy + 1, v[idz].1 + 1, v[idw].1 + 1];
                     v.sort_unstable();
                     return (v[0], v[1], v[2], v[3]);
+                } else if v[idz].0 + v[idw].0 + x + y < target_sum {
+                    idz += 1;
+                } else {
+                    idw -= 1;
                 }
             }
         }
