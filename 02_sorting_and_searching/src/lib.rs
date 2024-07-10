@@ -17,3 +17,4 @@ pub mod p22_tasks_and_deadlines;
 pub mod p23_reading_books;
 pub mod p24_sum_of_three_values;
 pub mod p25_sum_of_four_values;
+pub mod p26_nearest_smaller_values;
