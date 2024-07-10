@@ -19,3 +19,4 @@ pub mod p24_sum_of_three_values;
 pub mod p25_sum_of_four_values;
 pub mod p26_nearest_smaller_values;
 pub mod p27_subarray_sums_i;
+pub mod p28_subarray_sums_ii;
