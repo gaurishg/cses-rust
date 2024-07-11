@@ -21,3 +21,4 @@ pub mod p26_nearest_smaller_values;
 pub mod p27_subarray_sums_i;
 pub mod p28_subarray_sums_ii;
 pub mod p29_subarray_divisibility;
+pub mod p30_subarray_distinct_values;
