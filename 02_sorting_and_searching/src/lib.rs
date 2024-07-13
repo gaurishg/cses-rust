@@ -23,3 +23,4 @@ pub mod p28_subarray_sums_ii;
 pub mod p29_subarray_divisibility;
 pub mod p30_subarray_distinct_values;
 pub mod p31_array_division;
+pub mod p32_sliding_window_median;
