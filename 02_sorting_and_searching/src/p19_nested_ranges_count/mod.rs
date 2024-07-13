@@ -34,11 +34,13 @@ impl BIT {
     }
 }
 
+#[allow(dead_code)]
 struct RangeQuery {
     n: usize,
     data: Vec<usize>,
 }
 
+#[allow(dead_code)]
 impl RangeQuery {
     pub fn new(n: usize) -> Self {
         Self {

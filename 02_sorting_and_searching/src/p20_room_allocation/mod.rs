@@ -91,7 +91,7 @@ mod test {
 
         let n = input_lines.next().unwrap().parse().unwrap();
 
-        for test_idx in 1..=n {
+        for _ in 1..=n {
             let n = input_lines.next().unwrap().parse().unwrap();
             let mut input = vec![];
             for _ in 0..n {
