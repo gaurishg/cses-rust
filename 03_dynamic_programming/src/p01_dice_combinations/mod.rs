@@ -3,15 +3,15 @@ use std::io::Read;
 const MOD: usize = 1_000_000_000 + 7;
 
 fn f(n: usize) -> usize {
-    let mut dp = vec![0; n + 1];
-    dp[0] = 1;
-    for i in 1..=n {
-        for x in 1..=std::cmp::min(i, 6) {
-            dp[i] = (dp[i] + dp[i - x]) % MOD;
-        }
+    let mut dp = [0; 7];
+    dp[6] = 1;
+
+    for _ in 0..n {
+        dp.rotate_left(1);
+        dp[6] = dp[0..6].iter().sum::<usize>() % MOD;
     }
 
-    dp[n]
+    dp[6]
 }
 
 pub fn main() {
