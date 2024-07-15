@@ -4,22 +4,22 @@ fn f(max_total_price: usize, mut prices: Vec<usize>, mut pages: Vec<usize>) -> u
     prices.insert(0, 0);
     pages.insert(0, 0);
 
-    let mut dp = vec![vec![0; prices.len()]; max_total_price + 1];
+    let mut dp = vec![[0, 0]; max_total_price + 1];
 
-    for money in 1..=max_total_price {
-        for book_idx in 1..prices.len() {
+    for book_idx in 1..prices.len() {
+        for money in 1..=max_total_price {
             if prices[book_idx] > money {
-                dp[money][book_idx] = dp[money][book_idx - 1];
+                dp[money][book_idx % 2] = dp[money][1 - book_idx % 2];
             } else {
-                dp[money][book_idx] = std::cmp::max(
-                    dp[money][book_idx - 1],
-                    dp[money - prices[book_idx]][book_idx - 1] + pages[book_idx],
+                dp[money][book_idx % 2] = std::cmp::max(
+                    dp[money][1 - book_idx % 2],
+                    dp[money - prices[book_idx]][1 - book_idx % 2] + pages[book_idx],
                 );
             }
         }
     }
 
-    dp[max_total_price][prices.len() - 1]
+    dp[max_total_price][1 - prices.len() % 2]
 }
 
 pub fn main() {
