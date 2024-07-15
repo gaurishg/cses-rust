@@ -1,21 +1,23 @@
 use std::io::Read;
 
 fn f(n: usize) -> usize {
-    let mut steps = vec![n + 1; n + 1];
-    steps[0] = 0;
+    let mut steps = [n + 1; 11];
+    steps[10] = 0;
 
     for mut x in 1..=n {
+        steps.copy_within(1..11, 0);
+        steps[10] = n + 1;
         let x_again = x;
         while x > 0 {
             let digit = x % 10;
             x /= 10;
             if digit <= x_again {
-                steps[x_again] = std::cmp::min(steps[x_again], 1 + steps[x_again - digit]);
+                steps[10] = std::cmp::min(steps[10], 1 + steps[10 - digit]);
             }
         }
     }
 
-    steps[n]
+    steps[10]
 }
 
 pub fn main() {
