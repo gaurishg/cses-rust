@@ -7,7 +7,7 @@ fn f(n: usize) -> usize {
     dp[6] = 1;
 
     for _ in 0..n {
-        dp.rotate_left(1);
+        dp.copy_within(1..7, 0);
         dp[6] = dp[0..6].iter().sum::<usize>() % MOD;
     }
 
