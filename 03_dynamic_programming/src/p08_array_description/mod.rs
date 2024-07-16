@@ -37,16 +37,40 @@ fn calculate(
 }
 
 fn f(upper_bound: usize, v: Vec<usize>) -> usize {
-    let mut dp = HashMap::new();
-    if v[0] == 0 {
-        return (1..=upper_bound)
-            .map(|x| calculate(upper_bound, &v, 0, x, &mut dp))
-            .fold(0, |acc, v| (acc + v) % 1_000_000_007);
+    let n = v.len();
+    let mut dp = vec![vec![0; n]; upper_bound + 2];
+
+    for m in 1..=upper_bound {
+        if v[n - 1] != 0 {
+            if m == v[n - 1] {
+                dp[m][n - 1] = 1;
+            }
+        } else {
+            dp[m][n - 1] = 1;
+        }
     }
 
-    let ret = calculate(upper_bound, &v, 0, v[0], &mut dp);
-    eprintln!("{dp:?}");
-    ret
+    for col in (0..n - 1).rev() {
+        for row in 1..=upper_bound {
+            if v[col] != 0 {
+                if row == v[col] {
+                    dp[row][col] = (dp[row - 1][col + 1] + dp[row][col + 1] + dp[row + 1][col + 1])
+                        % 1_000_000_007;
+                }
+            } else {
+                dp[row][col] = (dp[row - 1][col + 1] + dp[row][col + 1] + dp[row + 1][col + 1])
+                    % 1_000_000_007;
+            }
+        }
+    }
+
+    if v[0] != 0 {
+        return dp[v[0]][0];
+    }
+
+    dp.iter()
+        .map(|v| v[0])
+        .fold(0, |acc, x| (acc + x) % 1_000_000_007)
 }
 
 pub fn main() {
