@@ -1,5 +1,6 @@
 use std::{collections::HashMap, io::Read};
 
+#[allow(dead_code)]
 fn calculate(
     upper_bound: usize,
     v: &Vec<usize>,

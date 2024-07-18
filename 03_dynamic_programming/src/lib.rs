@@ -7,3 +7,4 @@ pub mod p06_grid_paths;
 pub mod p07_book_shop;
 pub mod p08_array_description;
 pub mod p09_counting_towers;
+pub mod p10_edit_distance;
