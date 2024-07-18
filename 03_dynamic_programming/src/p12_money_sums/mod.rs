@@ -1,20 +1,24 @@
 use std::io::Read;
 
 fn f(coins: Vec<usize>) -> Vec<usize> {
-    let mut result = vec![];
+    let mut sum_is_possible = vec![false; 1 + coins.iter().sum::<usize>()];
+    sum_is_possible[0] = true;
 
+    let mut total_upto_here = 0;
     for coin in coins {
-        let n = result.len();
-        result.push(coin);
-        for i in 0..n {
-            result.push(coin + result[i]);
+        total_upto_here += coin;
+        for amt in (coin..=total_upto_here).rev() {
+            sum_is_possible[amt] = sum_is_possible[amt] || sum_is_possible[amt - coin];
         }
-
-        result.sort_unstable();
-        result.dedup();
     }
 
-    result
+    sum_is_possible
+        .into_iter()
+        .enumerate()
+        .skip(1)
+        .filter(|&(_, x)| x)
+        .map(|(idx, _)| idx)
+        .collect()
 }
 
 pub fn main() {
