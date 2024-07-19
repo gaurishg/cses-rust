@@ -1,19 +1,20 @@
 use std::io::Read;
 
 fn f(v: Vec<usize>) -> usize {
-    let n = v.len();
-    let mut dp = vec![1; n];
-    let mut longest = 1;
-    for i in 1..n {
-        for j in 0..i {
-            if v[j] < v[i] {
-                dp[i] = std::cmp::max(dp[i], 1 + dp[j]);
+    let mut lengths = vec![];
+    for x in v {
+        match lengths.binary_search(&x) {
+            Ok(pos) | Err(pos) => {
+                if pos == lengths.len() {
+                    lengths.push(x);
+                } else {
+                    lengths[pos] = x;
+                }
             }
         }
-        longest = std::cmp::max(longest, dp[i]);
     }
 
-    longest
+    lengths.len()
 }
 
 pub fn main() {
