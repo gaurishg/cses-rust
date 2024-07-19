@@ -1,3 +1,5 @@
+use std::io::Read;
+
 fn f(n: usize) -> usize {
     if (n * (n + 1)) % 4 != 0 {
         return 0;
@@ -11,20 +13,40 @@ fn f(n: usize) -> usize {
         v[0] = 1;
     }
 
-    for start in (1..=n).rev() {
+    // Find out why this does not work, which looks correct
+    // This does not work because let's say there are 1_000_000_008 solutions
+    // then after mod it becomes 1, and in the end we half it, so basically mod messes up
+    // everything
+    //for start in (1..=n).rev() {
+    //    for to_make in start..=half_sum {
+    //        // for every number check number of solutions if we take it plus
+    //        // number of solutions if we leave it
+    //        dp[start][to_make] =
+    //            (dp[start + 1][to_make] + dp[start + 1][to_make - start]) % 1_000_000_007;
+    //    }
+    //}
+    // Since every set is counted but we only need pairs, so half it
+    //dp[1][half_sum] / 2
+
+    // Why this works even though looks incorrect at first sight, because this solutions only takes number
+    // upto n-1 into account, it assumes that nth number is already in the other set, so make our
+    // solution without that. Using this method we do not need to halve the solution in the end
+    // It is not necessary to go upto n-1, we can also start from 2 and go upto n, similarly we can
+    // leave out any one number and our answer will be correct
+    for start in (1..n).rev() {
         for to_make in start..=half_sum {
-            //for x in start..=std::cmp::min(to_make, n) {
-            //    dp[start][to_make] = (dp[start][to_make] + dp[x + 1][to_make - x]) % 1_000_000_007;
-            //}
-            //dp[start][to_make] = (start..=std::cmp::min(to_make, n))
-            //    .map(|x| dp[x + 1][to_make - x])
-            //    .fold(0, |acc, x| (acc + x) % 1_000_000_007);
             dp[start][to_make] =
                 (dp[start + 1][to_make] + dp[start + 1][to_make - start]) % 1_000_000_007;
         }
     }
 
-    dp[1][half_sum] / 2
+    dp[1][half_sum]
+}
+
+pub fn main() {
+    let mut s = String::new();
+    _ = std::io::stdin().read_to_string(&mut s);
+    println!("{}", f(s.trim().parse().unwrap()));
 }
 
 #[cfg(test)]
