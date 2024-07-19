@@ -7,11 +7,9 @@ fn f(n: usize) -> usize {
 
     let half_sum = (n * (n + 1)) / 4;
 
-    let mut dp = vec![vec![0; half_sum + 1]; n + 2];
+    let mut dp = vec![0; half_sum + 1];
     // f(start, sum_to_make) = \sum_{x=start}^n{f(x + 1, sum_to_make - x)}
-    for v in &mut dp {
-        v[0] = 1;
-    }
+    dp[0] = 1;
 
     // Find out why this does not work, which looks correct
     // This does not work because let's say there are 1_000_000_008 solutions
@@ -34,13 +32,12 @@ fn f(n: usize) -> usize {
     // It is not necessary to go upto n-1, we can also start from 2 and go upto n, similarly we can
     // leave out any one number and our answer will be correct
     for start in (1..n).rev() {
-        for to_make in start..=half_sum {
-            dp[start][to_make] =
-                (dp[start + 1][to_make] + dp[start + 1][to_make - start]) % 1_000_000_007;
+        for to_make in (start..=half_sum).rev() {
+            dp[to_make] = (dp[to_make] + dp[to_make - start]) % 1_000_000_007;
         }
     }
 
-    dp[1][half_sum]
+    dp[half_sum]
 }
 
 pub fn main() {
