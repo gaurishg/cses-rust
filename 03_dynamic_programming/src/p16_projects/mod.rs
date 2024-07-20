@@ -1,32 +1,22 @@
-use std::{collections::HashMap, io::Read};
+use std::{collections::BTreeMap, io::Read};
 
-// max_profit
-//      = f(index=i, end_time=t)
-//      = MAX[v[i].2 + f(index=i+1, end_time=v[i].1),
-//          f(index=i+1, end_time=t)]
 fn f(mut v: Vec<(usize, usize, usize)>) -> usize {
-    v.sort_unstable_by_key(|ele| ele.1);
+    v.sort_unstable_by_key(|t| t.1);
 
-    let mut times = v.iter().flat_map(|&x| [x.1, x.0]).collect::<Vec<usize>>();
-    times.push(0);
-    times.sort_unstable();
-    times.dedup();
-    let times = times;
-    let times_mapping: HashMap<usize, usize> =
-        times.iter().enumerate().map(|(idx, x)| (*x, idx)).collect();
-
-    let mut dp = vec![0; times.len()];
-    for (start_time, end_time, profit) in v.into_iter().rev() {
-        let start_time = times_mapping[&start_time];
-        let end_time = times_mapping[&end_time];
-        for last_time in (0..dp.len()).rev() {
-            if start_time > last_time {
-                dp[last_time] = std::cmp::max(profit + dp[end_time], dp[last_time]);
-            }
-        }
+    let mut dp = BTreeMap::new();
+    dp.insert(0, 0);
+    let mut max_profit_overall = 0;
+    for (start, end, profit) in v {
+        let &previous_profit = dp.range(0..start).last().unwrap().1;
+        let max_till_here = dp.entry(end).or_default();
+        *max_till_here =
+            IntoIterator::into_iter([*max_till_here, previous_profit + profit, max_profit_overall])
+                .max()
+                .unwrap();
+        max_profit_overall = std::cmp::max(max_profit_overall, *max_till_here);
     }
 
-    dp[0]
+    max_profit_overall
 }
 
 pub fn main() {
