@@ -13,3 +13,4 @@ pub mod p12_money_sums;
 pub mod p13_removal_game;
 pub mod p14_two_sets_ii;
 pub mod p15_increasing_sequence;
+pub mod p16_projects;
