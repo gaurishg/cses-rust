@@ -15,3 +15,4 @@ pub mod p14_two_sets_ii;
 pub mod p15_increasing_sequence;
 pub mod p16_projects;
 pub mod p17_elevator_rides;
+pub mod p18_counting_tilings;
