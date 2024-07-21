@@ -1,22 +1,20 @@
 use std::{io::Read, usize};
 
-#[allow(non_snake_case)]
-fn recurse(v: &mut Vec<Vec<char>>, r: isize, c: isize, R: isize, C: isize) {
-    if r < 0 || r >= R || c < 0 || c >= C || v[r as usize][c as usize] == '#' {
+fn recurse(v: &mut Vec<Vec<char>>, r: isize, c: isize, n_rows: isize, n_cols: isize) {
+    if r < 0 || r >= n_rows || c < 0 || c >= n_cols || v[r as usize][c as usize] == '#' {
         return;
     }
 
     v[r as usize][c as usize] = '#';
-    recurse(v, r - 1, c, R, C);
-    recurse(v, r + 1, c, R, C);
-    recurse(v, r, c - 1, R, C);
-    recurse(v, r, c + 1, R, C);
+    recurse(v, r - 1, c, n_rows, n_cols);
+    recurse(v, r + 1, c, n_rows, n_cols);
+    recurse(v, r, c - 1, n_rows, n_cols);
+    recurse(v, r, c + 1, n_rows, n_cols);
 }
 
-#[allow(non_snake_case)]
 fn f(mut v: Vec<Vec<char>>) -> usize {
-    let R = v.len() as isize;
-    let C = v[0].len() as isize;
+    let n_rows = v.len() as isize;
+    let n_cols = v[0].len() as isize;
     let mut rooms = 0;
 
     for r in 0..v.len() {
@@ -24,7 +22,7 @@ fn f(mut v: Vec<Vec<char>>) -> usize {
             if v[r][c] != '#' {
                 rooms += 1;
             }
-            recurse(&mut v, r as isize, c as isize, R, C);
+            recurse(&mut v, r as isize, c as isize, n_rows, n_cols);
         }
     }
 
