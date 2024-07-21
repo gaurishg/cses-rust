@@ -3,6 +3,7 @@
 members = [
 	"01_introductory_problems",
 	"02_sorting_and_searching", 
-	"03_dynamic_programming"]
+	"03_dynamic_programming",
+	"04_graph_algorithms"]
 
 resolver = "1"
