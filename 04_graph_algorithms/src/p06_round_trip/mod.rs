@@ -1,57 +1,42 @@
-use std::{collections::HashSet, io::Read};
-
-#[derive(Clone, Copy, PartialEq, Eq)]
-enum State {
-    NotVisited,
-    InProgress,
-    Done,
-}
+use std::io::Read;
 
 fn dfs(
-    edges: &Vec<HashSet<usize>>,
-    states: &mut Vec<State>,
-    origins: &mut Option<Vec<usize>>,
-    i: usize,
-    v: &mut Vec<usize>,
-) {
-    if states[i] == State::InProgress {
-        let mut res = vec![i];
-        res.extend(v.iter().rev().take_while(|&&x| x != i));
-        res.push(i);
-        if res.len() >= 4 {
-            *origins = Some(res);
-        }
-        return;
+    edges: &Vec<Vec<usize>>,
+    visited: &mut Vec<bool>,
+    cycle: &mut Vec<usize>,
+    current_node: usize,
+    parent_node: usize,
+) -> bool {
+    cycle.push(current_node);
+    if visited[current_node] {
+        return true;
     }
 
-    states[i] = State::InProgress;
-    v.push(i);
-    for &j in edges[i].iter() {
-        dfs(edges, states, origins, j, v);
-        if origins.is_some() {
-            break;
+    visited[current_node] = true;
+    for &next_node in edges[current_node].iter() {
+        if next_node != parent_node && dfs(edges, visited, cycle, next_node, current_node) {
+            return true;
         }
     }
-    v.pop();
-    states[i] = State::Done;
+    cycle.pop();
+    false
 }
 
 fn f(n: usize, roads: Vec<(usize, usize)>) -> Option<Vec<usize>> {
-    let mut edges = vec![HashSet::new(); n + 1];
+    let mut edges = vec![vec![]; n + 1];
     for (i, j) in roads {
-        edges[i].insert(j);
-        edges[j].insert(i);
+        edges[i].push(j);
+        edges[j].push(i);
     }
 
-    let mut states = vec![State::NotVisited; n + 1];
-    let mut origins = None;
-    let mut v = vec![];
+    let mut cycle = Vec::new();
+    let mut visited = vec![false; n + 1];
 
     for i in 1..=n {
-        if states[i] == State::NotVisited {
-            dfs(&edges, &mut states, &mut origins, i, &mut v);
-            if origins.is_some() {
-                return origins;
+        if !visited[i] {
+            if dfs(&edges, &mut visited, &mut cycle, i, 0) {
+                let last_item = cycle.last().copied().unwrap();
+                return Some(cycle.into_iter().skip_while(|x| *x != last_item).collect());
             }
         }
     }
