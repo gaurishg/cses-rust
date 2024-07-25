@@ -6,60 +6,21 @@ struct Edge {
     weight: i64,
 }
 
-#[derive(PartialEq, Eq, Clone, Copy)]
-enum State {
-    NotVisited,
-    InProgress,
-    CanBeReached,
-    CanNotBeReached,
-}
-
-fn can_be_reached_from_the_fist_node(
-    source: usize,
-    can_be_reached_from_first: &mut Vec<bool>,
-    adj: &Vec<Vec<usize>>,
-) {
-    if can_be_reached_from_first[source] {
-        return;
-    }
-
-    can_be_reached_from_first[source] = true;
-
+fn dfs(source: usize, visited: &mut Vec<bool>, adj: &Vec<Vec<usize>>) {
+    visited[source] = true;
     for &dest in adj[source].iter() {
-        can_be_reached_from_the_fist_node(dest, can_be_reached_from_first, adj);
-    }
-}
-
-fn can_reach_the_last_node(source: usize, can_reach_last: &mut Vec<State>, adj: &Vec<Vec<usize>>) {
-    if can_reach_last[source] != State::NotVisited {
-        return;
-    }
-    can_reach_last[source] = State::InProgress;
-    for &dest in adj[source].iter() {
-        if can_reach_last[dest] == State::NotVisited {
-            can_reach_the_last_node(dest, can_reach_last, adj);
-        }
-        match can_reach_last[dest] {
-            State::NotVisited => {}
-            State::InProgress => {}
-            State::CanNotBeReached => {
-                can_reach_last[source] = State::CanNotBeReached;
-                return;
-            }
-            State::CanBeReached => {
-                can_reach_last[source] = State::CanBeReached;
-                return;
-            }
+        if !visited[dest] {
+            dfs(dest, visited, adj);
         }
     }
-    can_reach_last[source] = State::NotVisited;
 }
 
 fn f(n_vertices: usize, mut edges: Vec<Edge>) -> i64 {
     let mut dp = vec![i64::MIN; n_vertices + 1];
     let mut can_be_reached_from_first = vec![false; n_vertices + 1];
-    let mut can_reach_last = vec![State::NotVisited; n_vertices + 1];
+    let mut can_reach_last = vec![false; n_vertices + 1];
     let mut adj = vec![vec![]; n_vertices + 1];
+    let mut reverse_adj = vec![vec![]; n_vertices + 1];
 
     for &Edge {
         source,
@@ -68,25 +29,19 @@ fn f(n_vertices: usize, mut edges: Vec<Edge>) -> i64 {
     } in edges.iter()
     {
         adj[source].push(destination);
+        reverse_adj[destination].push(source);
     }
 
     dp[1] = 0;
-    can_be_reached_from_the_fist_node(1, &mut can_be_reached_from_first, &adj);
-    can_reach_last[n_vertices] = State::CanBeReached;
-    for node in 1..n_vertices {
-        if can_reach_last[node] == State::NotVisited {
-            can_reach_the_last_node(node, &mut can_reach_last, &adj);
-        }
-    }
+    dfs(1, &mut can_be_reached_from_first, &adj);
+    dfs(n_vertices, &mut can_reach_last, &reverse_adj);
 
     edges.retain(
         |&Edge {
              source,
              destination,
              ..
-         }| {
-            can_be_reached_from_first[source] && can_reach_last[destination] == State::CanBeReached
-        },
+         }| can_be_reached_from_first[source] && can_reach_last[destination],
     );
 
     for _ in 1..n_vertices {
