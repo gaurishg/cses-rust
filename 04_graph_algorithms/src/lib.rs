@@ -9,3 +9,4 @@ pub mod p08_shortest_routes_i;
 pub mod p09_shortest_routes_ii;
 pub mod p10_high_score;
 pub mod p11_flight_discount;
+pub mod p12_cycle_finding;
