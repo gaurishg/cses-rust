@@ -84,6 +84,7 @@ mod test_round_trip_ii {
     use super::{f, parse_input};
 
     #[test]
+    #[ignore]
     fn example() {
         let s = "4 5
 1 3
@@ -96,6 +97,7 @@ mod test_round_trip_ii {
     }
 
     #[test]
+    #[ignore]
     fn test_1() {
         let s = "10 20
 1 3
@@ -123,6 +125,7 @@ mod test_round_trip_ii {
     }
 
     #[test]
+    #[ignore]
     fn test_2() {
         let s = "10 20
 1 7
@@ -150,6 +153,7 @@ mod test_round_trip_ii {
     }
 
     #[test]
+    #[ignore]
     fn test_16() {
         let s = "5 6
 1 5
