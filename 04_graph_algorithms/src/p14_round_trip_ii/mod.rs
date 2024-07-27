@@ -1,52 +1,53 @@
-use std::{collections::HashMap, io::Read};
+use std::io::Read;
+
+#[derive(PartialEq, Eq, Clone, Copy)]
+enum VisitedState {
+    NotVisited,
+    InProgress,
+    Done,
+}
+
+fn dfs(
+    i: usize,
+    adj: &Vec<Vec<usize>>,
+    visited: &mut Vec<VisitedState>,
+    v: &mut Vec<usize>,
+) -> bool {
+    if visited[i] == VisitedState::Done {
+        return false;
+    } else if visited[i] == VisitedState::InProgress {
+        v.push(i);
+        return true;
+    }
+
+    visited[i] = VisitedState::InProgress;
+    v.push(i);
+
+    for &child in &adj[i] {
+        if dfs(child, adj, visited, v) {
+            return true;
+        }
+    }
+
+    visited[i] = VisitedState::Done;
+    v.pop();
+    false
+}
 
 fn f(n_vertices: usize, flights: Vec<(usize, usize)>) -> Option<Vec<usize>> {
+    let mut visited = vec![VisitedState::NotVisited; n_vertices + 1];
+    let mut v = vec![];
     let mut adj = vec![vec![]; n_vertices + 1];
     for (u, v) in flights {
         adj[u].push(v);
     }
     let adj = adj;
-    let mut visited = vec![0; n_vertices + 1];
-    let mut stack = Vec::new();
-    let mut parents = vec![usize::MAX; n_vertices + 1];
 
-    let mut start_idx = 1;
-    for start_node in 1..=n_vertices {
-        if visited[start_node] != 0 {
-            continue;
+    for i in 1..=n_vertices {
+        if dfs(i, &adj, &mut visited, &mut v) {
+            let &first_element = v.last().unwrap();
+            return Some(v.into_iter().skip_while(|&x| x != first_element).collect());
         }
-        stack.push(start_node);
-        let mut counter = 0;
-        while !stack.is_empty() {
-            let node = stack.pop().unwrap();
-            if visited[node] != 0 {
-                if visited[node] < start_idx {
-                    continue;
-                }
-                let mut res = vec![node];
-                let mut prev_idx = HashMap::new();
-                prev_idx.insert(node, 0);
-                let mut current_node = parents[node];
-                for idx in 1..n_vertices {
-                    res.push(current_node);
-                    if let Some(last_idx) = prev_idx.insert(current_node, idx) {
-                        return Some(res.into_iter().skip(last_idx).rev().collect());
-                    }
-                    current_node = parents[current_node];
-                }
-            }
-            visited[node] = start_idx + counter;
-            counter += 1;
-
-            for &child in &adj[node] {
-                if visited[child] != 0 && visited[child] < start_idx {
-                    continue;
-                }
-                stack.push(child);
-                parents[child] = node;
-            }
-        }
-        start_idx += counter;
     }
 
     None
@@ -92,6 +93,60 @@ mod test_round_trip_ii {
 3 4";
         let (n, e) = parse_input(s);
         assert_eq!(f(n, e), Some(vec![2, 1, 3, 2]));
+    }
+
+    #[test]
+    fn test_1() {
+        let s = "10 20
+1 3
+7 4
+5 4
+9 6
+4 7
+6 9
+10 8
+4 8
+8 3
+3 10
+2 8
+9 5
+10 2
+9 8
+10 9
+1 10
+3 6
+4 5
+8 10
+3 2";
+        let (n, e) = parse_input(s);
+        assert_eq!(f(n, e), Some(vec![3, 10, 8, 3]));
+    }
+
+    #[test]
+    fn test_2() {
+        let s = "10 20
+1 7
+2 8
+10 5
+4 8
+7 10
+6 4
+9 10
+7 2
+6 3
+4 7
+9 3
+2 5
+4 3
+8 9
+7 1
+5 10
+7 6
+8 1
+8 2
+6 7";
+        let (n, e) = parse_input(s);
+        assert_eq!(f(n, e), Some(vec![10, 5, 10]));
     }
 
     #[test]
