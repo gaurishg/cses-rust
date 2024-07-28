@@ -9,6 +9,7 @@ enum Query {
 struct FenwickTree {
     n: usize,
     tree: Vec<usize>,
+    v: Vec<usize>,
 }
 
 impl FenwickTree {
@@ -23,11 +24,12 @@ impl FenwickTree {
             }
         }
 
-        Self { n, tree }
+        Self { n, tree, v }
     }
 
     fn update(&mut self, mut pos: usize, value: usize) {
-        let old_value = self.get_range(pos, pos);
+        let old_value = self.v[pos - 1];
+        self.v[pos - 1] = value;
         while pos <= self.n {
             self.tree[pos] -= old_value;
             self.tree[pos] += value;
