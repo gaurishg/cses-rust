@@ -1,1 +1,2 @@
 pub mod p01_static_range_sum_queries;
+pub mod p02_static_range_minimum_queries;
