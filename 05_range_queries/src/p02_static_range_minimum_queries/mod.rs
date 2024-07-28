@@ -1,55 +1,35 @@
 use std::{io::Read, usize};
 
-struct RangeQuery {
-    n: usize,
-    tree: Vec<usize>,
-}
-
-impl RangeQuery {
-    fn from(v: Vec<usize>) -> Self {
-        let n = v.len().next_power_of_two();
-        let mut tree = vec![usize::MAX; 2 * n];
-        tree[n..n + v.len()].copy_from_slice(&v[..]);
-
-        for i in (1..n).rev() {
-            tree[i] = tree[2 * i].min(tree[2 * i + 1]);
-        }
-
-        Self { n, tree }
-    }
-
-    fn get(&self, mut a: usize, mut b: usize) -> usize {
-        // 1 based index to 0 based
-        a -= 1;
-        b -= 1;
-
-        a += self.n;
-        b += self.n;
-
-        let mut minval = usize::MAX;
-        while a <= b {
-            if a % 2 == 1
-            // right child in tree
-            {
-                minval = minval.min(self.tree[a]);
-                a += 1;
-            }
-            if b % 2 == 0
-            // left child in tree
-            {
-                minval = minval.min(self.tree[b]);
-                b -= 1;
-            }
-            a /= 2;
-            b /= 2;
-        }
-        minval
-    }
-}
-
 fn f(v: Vec<usize>, queries: Vec<(usize, usize)>) -> Vec<usize> {
-    let rq = RangeQuery::from(v);
-    queries.into_iter().map(|(a, b)| rq.get(a, b)).collect()
+    let log_limit = (v.len() as f64).log2() as usize;
+    // dp[i][j] = min of starting at i and of length 1 << j
+    let mut dp = vec![vec![usize::MAX; log_limit + 1]; v.len()];
+    for (idx, &x) in v.iter().enumerate() {
+        dp[idx][0] = x;
+    }
+
+    for j in 1..=log_limit {
+        for i in (0..v.len()).take_while(|&i| (i + (1 << j)) <= v.len()) {
+            dp[i][j] = dp[i][j - 1].min(dp[i + (1 << (j - 1))][j - 1]);
+        }
+    }
+
+    let get_min = |a: usize, b: usize| {
+        let a = a - 1;
+        let b = b - 1;
+        let len = b - a + 1;
+        let mut start = a;
+        let mut result = usize::MAX;
+        for j in 0..20 {
+            if len & (1 << j) != 0 {
+                result = result.min(dp[start][j]);
+                start += 1 << j;
+            }
+        }
+        result
+    };
+
+    queries.into_iter().map(|(a, b)| get_min(a, b)).collect()
 }
 
 fn parse_input(s: &str) -> (Vec<usize>, Vec<(usize, usize)>) {
