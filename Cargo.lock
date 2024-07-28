@@ -15,5 +15,9 @@ name = "introductory_problems"
 version = "0.1.0"
 
 [[package]]
+name = "range_queries"
+version = "0.1.0"
+
+[[package]]
 name = "sorting_and_searching"
 version = "0.1.0"
