@@ -18,27 +18,32 @@ impl RangeQuery {
         Self { n, tree }
     }
 
-    fn get_internal(
-        &self,
-        i: usize,
-        range_l: usize,
-        range_r: usize,
-        ql: usize,
-        qr: usize,
-    ) -> usize {
-        if range_r < ql || range_l > qr {
-            return usize::MAX;
-        }
-        if range_l >= ql && range_r <= qr {
-            return self.tree[i];
-        }
-        let last_of_first = (range_l + range_r) / 2;
-        self.get_internal(2 * i, range_l, last_of_first, ql, qr)
-            .min(self.get_internal(2 * i + 1, last_of_first + 1, range_r, ql, qr))
-    }
+    fn get(&self, mut a: usize, mut b: usize) -> usize {
+        // 1 based index to 0 based
+        a -= 1;
+        b -= 1;
 
-    fn get(&self, a: usize, b: usize) -> usize {
-        self.get_internal(1, 0, self.n - 1, a - 1, b - 1)
+        a += self.n;
+        b += self.n;
+
+        let mut minval = usize::MAX;
+        while a <= b {
+            if a % 2 == 1
+            // right child in tree
+            {
+                minval = minval.min(self.tree[a]);
+                a += 1;
+            }
+            if b % 2 == 0
+            // left child in tree
+            {
+                minval = minval.min(self.tree[b]);
+                b -= 1;
+            }
+            a /= 2;
+            b /= 2;
+        }
+        minval
     }
 }
 
